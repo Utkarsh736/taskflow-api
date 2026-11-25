@@ -12,7 +12,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET', 'super-secret-dev-key')
+# Added more characters to meet the 32-byte security requirement
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET', 'super-secret-dev-key-longer-than-32-bytes') 
 
 db = SQLAlchemy(app)
 jwt = JWTManager(app)
@@ -41,7 +42,7 @@ with app.app_context():
 
 @app.route('/register', methods=['POST'])
 def register():
-    data - request.get_json()
+    data = request.get_json()
     if User.query.filter_by(username=data['username']).first():
         return jsonify({"msg": "Username already exists"}), 400
 
